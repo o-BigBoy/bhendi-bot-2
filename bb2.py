@@ -5,7 +5,7 @@ import requests
 import json
 import random
 
-client = commands.Bot(command_prefix=get_prefix,case_insensitive = True)
+client = commands.Bot(command_prefix='=',case_insensitive = True)
 dreamlo_url = os.getenv('dreamlo_url')
 total_nice = 0
 temp_total_nice = 0
