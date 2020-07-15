@@ -5,7 +5,7 @@ import requests
 import json
 import random
 
-client = discord.Client()
+client = commands.Bot(command_prefix=get_prefix,case_insensitive = True)
 dreamlo_url = os.getenv('dreamlo_url')
 total_nice = 0
 temp_total_nice = 0
@@ -171,6 +171,44 @@ async def on_message(message):
 
     elif check_if_asking_price_xD(str(message.content).lower()):
         await message.channel.send(f"{random.choice(bhendi_prices)} {random.choice([' ', 'ka sir', 'ka bhaiya'])}")
+                                  
+@client.command()
+@commands.is_owner()
+async def load(ctx,extension):
+    try:
+        client.load_extension(f"cogs.{extension}")
+        await ctx.send(f"Loaded the extension **{extension}**")
+    except Exception as e:
+            print(e)
+            await ctx.send("An Error has been logged.")
+
+@client.command()
+@commands.is_owner()
+async def unload(ctx,extension):
+    try:
+        client.unload_extension(f"cogs.{extension}")
+        await ctx.send(f"Unloaded the extension **{extension}**")
+    except Exception as e:
+            print(e)
+            await ctx.send("An Error has been logged.")
+
+@client.command()
+@commands.is_owner()
+async def reload(ctx,extension):
+    try:
+        client.unload_extension(f"cogs.{extension}")
+        client.load_extension(f"cogs.{extension}")
+        await ctx.send(f"Reloaded the extension **{extension}**")
+    except Exception as e:
+            print(e)
+            await ctx.send("An Error has been logged.")
+
+for filename in os.listdir('./cogs'):
+    try:
+        if filename.endswith('.py'):
+            client.load_extension(f"cogs.{filename[:-3]}")
+    except Exception as e:
+            print(e)
 
 @client.command()
 async def ping(ctx):
